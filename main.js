@@ -3,8 +3,18 @@ function drawIt() {
       ctx = $('#canvas')[0].getContext("2d");
       WIDTH = $("#canvas").width();
       HEIGHT = $("#canvas").height();
-      return setInterval(draw, 15);
+      callIt(15);
+
+      
   }
+
+
+  var call_timer; // current timeout id to clear
+  function callIt(num) {
+    draw();
+      call_timer = setTimeout(callIt, num);
+  };
+
 
   function init_paddle() {
       paddlex = WIDTH / 4;
@@ -46,7 +56,7 @@ function drawIt() {
   }
 
   var x = 200;
-  var y = 10;
+  var y = 200;
   var dx = 3;
   var dy = 5;
   var ctx;
@@ -72,6 +82,22 @@ function drawIt() {
   var BRICKWIDTH;
   var BRICKHEIGHT;
   var PADDING;
+  var currColor1="#4bcffa";
+  var currColor2="#ff3f34"
+  var timeout=8000;
+  var once=false;
+
+  function initMusic(){
+    var audio_file = new Audio('mario.mp3')
+    audio_file.addEventListener('timeupdate', function(){
+        var buffer = .29
+        if(this.currentTime > this.duration - buffer){
+            this.currentTime = 24
+            this.play()
+        }
+    });
+    audio_file.play();
+  }
 
   function circle(x, y, r, c) {
       ctx.beginPath();
@@ -128,8 +154,8 @@ function drawIt() {
 
 
 
-      rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
-      rect(paddlex2, HEIGHT - paddleh2, paddlew2, paddleh2);
+      rect(paddlex, HEIGHT - paddleh, paddlew, paddleh,currColor1);
+      rect(paddlex2, HEIGHT - paddleh2, paddlew2, paddleh2,currColor2);
 
       //riši opeke
       for (i = 0; i < NROWS; i++) {
@@ -162,14 +188,14 @@ function drawIt() {
           if (x > paddlex && x < paddlex + paddlew) {
               dx = 6 * ((x - (paddlex + paddlew / 2)) / paddlew);
               dy = -dy;
-          } else if (y + dy > HEIGHT - r)
-              clearInterval(ne);
+          } else if (y + dy > HEIGHT - r){console.log("END OF GAME, YOU LOSE!")}
+              //clearInterval(ne);
 
           if (x > paddlex2 && x < paddlex2 + paddlew2) {
                 dx = 6 * ((x - (paddlex2 + paddlew2 / 2)) / paddlew2);
                 dy = -dy;
-            } else if (y + dy > HEIGHT - r)
-                clearInterval(ne);
+            } else if (y + dy > HEIGHT - r){console.log("END OF GAME, YOU LOSE!")}
+                //clearInterval(ne);
       }
       x += dx;
       y += dy;
@@ -209,26 +235,26 @@ function drawIt() {
 
   //nastavljanje leve in desne tipke
   function onKeyDown(evt) {
-    if (evt.keyCode == 68)
+    if (evt.keyCode == dKey)//d -68
         rightDownLeft = true;
-    else if (evt.keyCode == 65)
+    else if (evt.keyCode == aKey)//a -65
         leftDownLeft = true;
 
-      if (evt.keyCode == 37)
+      if (evt.keyCode == rKey)//-> -37
           rightDownRight = true;
-      else if (evt.keyCode == 39)
+      else if (evt.keyCode == lKey)//<- -39
           leftDownRight = true;
   }
 
   function onKeyUp(evt) {
-    if (evt.keyCode == 68)
+    if (evt.keyCode == dKey)
         rightDownLeft = false;
-    else if (evt.keyCode == 65)
+    else if (evt.keyCode == aKey)
         leftDownLeft = false;
 
-      if (evt.keyCode == 37)
+      if (evt.keyCode == rKey)
           rightDownRight = false;
-      else if (evt.keyCode == 39)
+      else if (evt.keyCode == lKey)
           leftDownRight = false;
   }
 
@@ -241,9 +267,60 @@ function drawIt() {
   $(document).keydown(onKeyDown);
   $(document).keyup(onKeyUp);
 
+  var rKey=68;
+  var lKey=65;
+  var dKey=37;
+  var aKey=39;
+
   init();
   init_paddle();
   init_paddle2();
   //init_mouse();
   initbricks();
+  initMusic();
+  switchInput();
+
+
+  var timer; // current timeout id to clear
+  function switchInput() {
+    if(once)
+        timeout=4000;
+    else
+        once=true;
+    swap();
+      timer = setTimeout(switchInput, timeout);
+  };
+  
+
+  f/*unction switchInput(){
+    if(once)
+        timeout=4000;
+    else
+        once=true;
+    return setInterval(swap, timeout);
+  }*/
+  function swap(){
+    rightDownLeft = false;
+    leftDownLeft = false;
+    rightDownRight = false;
+    leftDownRight = false;
+    if(dKey!=68){
+        dKey=68;
+        aKey=65;
+        rKey=37;
+        lKey=39;
+        currColor1="#4bcffa";
+        currColor2="#ff3f34"
+    }
+    else{
+        dKey=39;
+        aKey=37;
+        rKey=65;
+        lKey=68;
+        currColor2="#4bcffa";
+        currColor1="#ff3f34"
+    }
+  }
+
+
 }
