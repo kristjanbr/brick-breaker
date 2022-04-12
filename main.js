@@ -3,16 +3,16 @@ function drawIt() {
       ctx = $('#canvas')[0].getContext("2d");
       WIDTH = $("#canvas").width();
       HEIGHT = $("#canvas").height();
-      callIt(15);
+      callIt();
 
       
   }
 
 
   var call_timer; // current timeout id to clear
-  function callIt(num) {
+  function callIt() {
     draw();
-      call_timer = setTimeout(callIt, num);
+    call_timer = setTimeout(callIt, 15); // do not touch 
   };
 
 
