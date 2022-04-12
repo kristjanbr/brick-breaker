@@ -12,7 +12,7 @@ function drawIt() {
   var call_timer; // current timeout id to clear
   function callIt() {
     draw();
-    call_timer = setTimeout(callIt, 15); // do not touch 
+    call_timer = setTimeout(callIt, 10); // do not touch 
   };
 
 
@@ -88,7 +88,7 @@ function drawIt() {
   var once=false;
 
   function initMusic(){
-    var audio_file = new Audio('mario.mp3')
+    var audio_file = new Audio('../mus/mario.mp3')
     audio_file.addEventListener('timeupdate', function(){
         var buffer = .29
         if(this.currentTime > this.duration - buffer){
@@ -101,7 +101,11 @@ function drawIt() {
 
   function circle(x, y, r, c) {
       ctx.beginPath();
-      ctx.fillStyle = "rgb(" + c + ")";
+      ctx.fillStyle="linear-gradient(to bottom left, #7d0140 , #120147)";
+      var my_gradient = ctx.createLinearGradient(300, 0, 0, 150);
+        my_gradient.addColorStop(0, "#440122");
+        my_gradient.addColorStop(1, "#0c002c");
+        ctx.fillStyle = my_gradient
       ctx.arc(x, y, r, 0, Math.PI * 2, true);
       ctx.closePath();
       ctx.fill();
