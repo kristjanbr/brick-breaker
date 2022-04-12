@@ -88,7 +88,7 @@ function drawIt() {
   var once=false;
 
   function initMusic(){
-    var audio_file = new Audio('../mus/mario.mp3')
+    var audio_file = new Audio('mus/mario.mp3')
     audio_file.addEventListener('timeupdate', function(){
         var buffer = .29
         if(this.currentTime > this.duration - buffer){
@@ -296,7 +296,7 @@ function drawIt() {
   };
   
 
-  f/*unction switchInput(){
+  /*function switchInput(){
     if(once)
         timeout=4000;
     else
