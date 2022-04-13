@@ -10,13 +10,13 @@
 			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 			  crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
+    <script src="js/swal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.all.min.js"></script>
 </head>
-<body onload="drawIt()">
+<body >
     <div class="bg"></div>
     <div class="titl"><span>The </span><span id="swit">Swit</span><span id="ching">ching</span> <span></span>Bricks</span></div>
-    <div class="containerB container">
-        <p class="header">START</p>
-    </div>
+    <button onclick="enterName()" type="button" class="containerB container" id="btn" >START</button>
     <div class="containerL container">
         <p class="header">High scores:</p><br/>
         <p>1. : Bulo</p>
@@ -24,6 +24,22 @@
         <p>3. : Abrakadabra</p>
         <p>4. : dgf</p>
         <p>5. : Abrrdhgfra</p>
+    </div>
+    <div class="container containerTop" id="top">
+        Welcome to The Switching Bricks.<br/>
+        Here you will take controll of 2 paddles,<br/>
+        with your mission to destory bricks quickly.<br/>
+        <br/>
+        One is controlled with A-D and one with Left-Right buttons.<br/>
+        <br/><br/>
+        But be careful! Every time you hear a "beep" cues, it means that<br/>
+        the input for paddles will switch!<br/>
+        <br/><br/>
+        So, don't forget to test the sound!<br/>
+        <br/><br/>
+        When you are ready click START button<br/>
+        <br/><br/>
+        Have fun and enjoy!<br/>
     </div>
     <div class="container">
         
@@ -35,7 +51,7 @@
         <p class="header">Difficulty:</p><br>
         <p class="header">X</p><br/><br/>
         <p class="header">Time:</p><br>
-        <p class="header">X</p><br/><br/>
+        <p class="header" id="whatTime">X</p><br/><br/>
     </div>
     <div class="btns">
         <div class="levi"><img src="img/dl.png" alt="" id="levaSlika"></div>

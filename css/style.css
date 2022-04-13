@@ -5,10 +5,11 @@
 *{
     padding: 0;
     margin: 0;
-}
-html, body{
     color: white;
     font-family: 'VIDEOPHREAK';
+}
+html, body{
+    
 	width:100%;
 	height: 100%;
 }
@@ -24,6 +25,7 @@ body{
     justify-content: center;
     overflow: auto;
 }
+
 .bg{
     z-index:-1;
     background:url("../img/bg.jpg");
@@ -33,6 +35,7 @@ body{
     height: 100%;
     opacity: 0.6;
 }
+
 .container{
     position: absolute;
     top: 50%;
@@ -44,55 +47,86 @@ body{
     border-radius: 2vh;
     padding: 1.2vh;
 }
+
 .containerR{
     top: 50%;
     left: 85%;
     height: 50vh;
     width: 30vh;
 }
+
 .containerL{
     top: 65%;
     left: 15%;
     height: 25vh;
     width: 30vh;
 }
+
 .containerB{
     top: 30%;
     left: 15%;
     height: 10vh;
     width: 30vh;
 }
+
+.containerTop{
+    width: 600px;
+    height: 650px;
+    z-index: 2;
+    text-align: center;
+    font-size: 2.5vh;
+}
+
 #canvas{
     background-size: cover;
     background-position: center;
     float: left;
     
 }
+
 .titl{
     padding-top: 3vh;
     position: absolute;
     font-size: 5vh;
 }
+
 .btns{
     position: absolute;
     bottom: 5vh;
     width: 40vw;
 }
+
 .levi{
     padding-left: 3vh;
     float: left;
 }
+
 .desni{
     padding-right: 3vh;
     float: right;
 }
+
 img{
     height: 6vh;
 }
+
 .header{
     text-align: center;
     font-size: 4vh;
 }
+
 p{
     font-size: 2.5vh;
+}
+
+button{
+    font-size: 4.5vh;
+}
+
+button:disabled{
+    color:#834140;
+}
+
+button:hover{
+    color:#4bcffa;
 }
