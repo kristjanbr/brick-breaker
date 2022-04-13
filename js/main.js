@@ -3,6 +3,7 @@ function drawIt() {
       ctx = $('#canvas')[0].getContext("2d");
       WIDTH = $("#canvas").width();
       HEIGHT = $("#canvas").height();
+      $("#scorePoints").html(tocke);
       callIt();
 
       
@@ -17,7 +18,7 @@ function drawIt() {
 
 
   function init_paddle() {
-      paddlex = WIDTH / 4;
+      paddlex = WIDTH / 8;
       paddleh = 15;
       paddlew = 75;
   }
@@ -47,12 +48,22 @@ function drawIt() {
           }
       }*/
       bricks=[
-      [0,0,0,0,0,0,0],
-      [3,3,3,3,3,3,3],
       [2,2,2,2,2,2,2],
-      [1,1,1,2,2,1,1],
-      [1,1,1,1,1,1,1],
-      [0,0,1,3,1,0,0]];
+      [1,2,2,2,2,2,1],
+      [0,1,1,2,1,1,0],
+      [0,0,2,1,2,0,0],
+      [0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0]];
+
+        bricks2=[
+        [2,2,2,2,2,2,2],
+        [1,2,2,2,2,2,1],
+        [0,1,1,2,1,1,0],
+        [0,0,2,1,2,0,0],
+        [0,0,0,0,0,0,0],
+        [3,0,0,0,0,0,3]
+
+      ];
   }
 
   var x = 200;
@@ -77,6 +88,7 @@ function drawIt() {
   var canvasMinX;
   var canvasMaxX;
   var bricks;
+  var bricks2;
   var NROWS;
   var NCOLS;
   var BRICKWIDTH;
@@ -86,6 +98,7 @@ function drawIt() {
   var currColor2="#ff3f34"
   var timeout=8000;
   var once=false;
+  var tocke = 0;
 
   function initMusic(){
     var audio_file = new Audio('mus/mario.mp3')
@@ -94,6 +107,8 @@ function drawIt() {
         if(this.currentTime > this.duration - buffer){
             this.currentTime = 24
             this.play()
+            timeout-=150;
+            once=false;
         }
     });
     audio_file.play();
@@ -104,7 +119,7 @@ function drawIt() {
       ctx.fillStyle="linear-gradient(to bottom left, #7d0140 , #120147)";
       var my_gradient = ctx.createLinearGradient(300, 0, 0, 150);
         my_gradient.addColorStop(0, "#440122");
-        my_gradient.addColorStop(1, "#0c002c");
+        my_gradient.addColorStop(1, "white");
         ctx.fillStyle = my_gradient
       ctx.arc(x, y, r, 0, Math.PI * 2, true);
       ctx.closePath();
@@ -164,7 +179,7 @@ function drawIt() {
       //riši opeke
       for (i = 0; i < NROWS; i++) {
           for (j = 0; j < NCOLS; j++) {
-              if (bricks[i][j] >0) {
+              if (bricks2[i][j] >0) {
                   rect((j * (BRICKWIDTH + PADDING)) + PADDING,
                       (i * (BRICKHEIGHT + PADDING)) + PADDING,
                       BRICKWIDTH, BRICKHEIGHT,farba(i,j));
@@ -180,7 +195,9 @@ function drawIt() {
       col = Math.floor(x / colwidth);
       //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
       if (y < NROWS * rowheight && row >= 0 && col >= 0 && (theBricks(row,col)|| theBricks(row+1,col))) {
-          dy = -dy;
+        dy = -dy;
+        tocke += 1; 
+        $("#scorePoints").html(tocke);
           //bricks[row][col] = 0;
       }
       if (x + dx > WIDTH - r || x + dx < 0 + r) {
@@ -206,14 +223,14 @@ function drawIt() {
 
   }
   function farba(row,col){
-    var num = bricks[row][col];
+    var num = bricks2[row][col];
     switch (num) {
         case 3:
-			return "#e74c3c";
+			return "#b80141";
         case 2:
-            return "#e67e22";
+            return "#0b0146";
         default:
-            return "#1abc9c"
+            return "#fff6fe"
     }
   }
   function theBricks(row,col){
@@ -222,14 +239,14 @@ function drawIt() {
   if (col>NCOLS-1)
     return false;
 
-    var num = bricks[row][col];
+    var num = bricks2[row][col];
     
     switch (num) {
         case 3:
         case 2:
         case 1:
-            bricks[row][col]=bricks[row][col]-1;
-            console.log(bricks[row][col]);
+            bricks2[row][col]=bricks2[row][col]-1;
+            console.log(bricks2[row][col]);
             return true;
         default:
             return false;
@@ -314,7 +331,11 @@ function drawIt() {
         rKey=37;
         lKey=39;
         currColor1="#4bcffa";
-        currColor2="#ff3f34"
+        currColor2="#ff3f34";
+        document.getElementById("desnaSlika").src="img/dlPurple.png";
+        document.getElementById("levaSlika").src="img/adBlue.png";
+        document.getElementById("swit").style.color ="#4bcffa";
+        document.getElementById("ching").style.color ="#ff3f34";
     }
     else{
         dKey=39;
@@ -322,7 +343,11 @@ function drawIt() {
         rKey=65;
         lKey=68;
         currColor2="#4bcffa";
-        currColor1="#ff3f34"
+        currColor1="#ff3f34";
+        document.getElementById("levaSlika").src="img/dlBlue.png";
+        document.getElementById("desnaSlika").src="img/adPurple.png";
+        document.getElementById("ching").style.color ="#4bcffa";
+        document.getElementById("swit").style.color ="#ff3f34";
     }
   }
 
