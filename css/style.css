@@ -130,3 +130,7 @@ button:disabled{
 button:hover{
     color:#4bcffa;
 }
+
+.swal2-icon-content{
+    color: #3fc3ee;
+}

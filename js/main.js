@@ -1,3 +1,4 @@
+var yourName="";
 function drawIt() {
 
     function init() {
@@ -17,7 +18,6 @@ function drawIt() {
     function timer() {
         if (start) {
             sekunde++;
-
             sekundeI = ((sekundeI = (sekunde % 60)) > 9) ? sekundeI : "0" + sekundeI;
             minuteI = ((minuteI = Math.floor(sekunde / 60)) > 9) ? minuteI : "0" + minuteI;
             izpisTimer = minuteI + ":" + sekundeI;
@@ -120,7 +120,6 @@ function drawIt() {
     var timeout = 8000;
     var once = false;
     var tocke = 0;
-    var sekunde;
     var sekundeI;
     var minuteI;
     var intTimer;
@@ -128,6 +127,7 @@ function drawIt() {
     var sekunde = 0;
     var izpisTimer = "00:00";
     var start = true;
+    var only=false;
 
     function initMusic() {
         var audio_file = new Audio('mus/mario.mp3')
@@ -241,7 +241,7 @@ function drawIt() {
                 dy = -dy;
                 //start = true;
             } else if (y + dy > HEIGHT - r) {
-                console.log("END OF GAME, YOU LOSE!")
+                //console.log("END OF GAME, YOU LOSE!")
                 start = false;
             }
             //clearInterval(ne);
@@ -251,15 +251,76 @@ function drawIt() {
                 dy = -dy;
                 //start = true;
             } else if (y + dy > HEIGHT - r) {
-                console.log("END OF GAME, YOU LOSE!")
+                //console.log("END OF GAME, YOU LOSE!")
                 start = false;
             }
             //clearInterval(ne);
         }
         x += dx;
         y += dy;
+        if(!start && !only){
+            only=true;
+            gameOver();
+        }
 
     }
+    function gameOver(){
+        start=true;
+        var finalScore=tocke-sekunde;
+        var sc=new Array(5);
+        sc[0]=parseInt(localStorage.getItem("sc1"));
+        sc[1]=parseInt(localStorage.getItem("sc2"));
+        sc[2]=parseInt(localStorage.getItem("sc3"));
+        sc[3]=parseInt(localStorage.getItem("sc4"));
+        sc[4]=parseInt(localStorage.getItem("sc5"));
+        var nu=new Array(5);
+        nu[0]=localStorage.getItem("nu1");
+        nu[1]=localStorage.getItem("nu2");
+        nu[2]=localStorage.getItem("nu3");
+        nu[3]=localStorage.getItem("nu4");
+        nu[4]=localStorage.getItem("nu5");
+        //console.log(sc);
+        for (var i = 0; i < sc.length; i++) {
+            if(finalScore>sc[i]){ 
+                var j=i;
+                while(j<sc.length){
+                    var tmp=sc.length-j-1;
+                    //if(tmp!=4){
+                        sc[tmp+1]=sc[tmp]
+                        nu[tmp+1]=nu[tmp]
+                        //console.log(sc[tmp]+" "+nu[tmp])
+                        //console.log(sc[tmp+1]+" "+nu[tmp+1]);
+                    //}
+                    j+=1;
+                }
+                //console.log(yourName+" "+finalScore)
+                sc[i]=finalScore;
+                nu[i]=yourName;
+                //console.log(sc[i]+" "+nu[i])
+                break;
+            }
+        }
+
+        localStorage.setItem("sc1",sc[0]);
+        localStorage.setItem("sc2",sc[1]);
+        localStorage.setItem("sc3",sc[2]);
+        localStorage.setItem("sc4",sc[3]);
+        localStorage.setItem("sc5",sc[4]);
+        localStorage.setItem("nu1",nu[0]);
+        localStorage.setItem("nu2",nu[1]);
+        localStorage.setItem("nu3",nu[2]);
+        localStorage.setItem("nu4",nu[3]);
+        localStorage.setItem("nu5",nu[4]);
+        /*for (var x = 0; x < sc.length; x++) {
+            localStorage.setItem("sc"+(x+1).toString,sc[x].toString);
+            localStorage.setItem("nu"+(x+1).toString,nu[x]);
+        }*/
+        done();
+        //window.location.reload(true)
+
+        //console.log(sc);
+    }
+
     function farba(row, col) {
         var num = bricks2[row][col];
         switch (num) {
@@ -284,7 +345,7 @@ function drawIt() {
             case 2:
             case 1:
                 bricks2[row][col] = bricks2[row][col] - 1;
-                console.log(bricks2[row][col]);
+                //console.log(bricks2[row][col]);
                 return true;
             default:
                 return false;

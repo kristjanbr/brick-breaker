@@ -8,8 +8,11 @@ function enterName() {
         if(result.value.length == 0){
             empty();
         }
+        else if(result.value.toLowerCase()=="your name"){
+            original();
+        }
         else if (result.value.length < 9) {
-            alert(result.value);
+            yourName=result.value;
             drawIt();
         }
         else {
@@ -32,4 +35,25 @@ function empty() {
         text: 'You have to enter something!',
 
     })
+}
+function about() {
+    Swal.fire({
+        title: 'ABOUT',
+        icon: 'info',
+        html:
+          'Website created by Kristjan B., 2022<br/><br/> ' +
+          'Music owned by Nintendo ',
+        showCloseButton: true,
+      })
+}
+function done(){
+    document.getElementById("canvas").style.opacity = 0;
+    document.getElementById("status").style.opacity = 0;
+    Swal.fire({
+        title: 'Game over!',
+        confirmButtonText: 'Restart',
+      }).then((result) => {
+          
+        window.location.reload(true);
+      })
 }

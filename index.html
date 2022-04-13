@@ -10,20 +10,16 @@
 			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 			  crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
+    
     <script src="js/swal.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.all.min.js"></script>
 </head>
 <body >
     <div class="bg"></div>
-    <div class="titl"><span>The </span><span id="swit">Swit</span><span id="ching">ching</span> <span></span>Bricks</span></div>
+    <div class="titl"><span onclick="about()"><span>The </span><span id="swit">Swit</span><span id="ching">ching</span> <span></span>Bricks</span></div></span>
     <button onclick="enterName()" type="button" class="containerB container" id="btn" >START</button>
     <div class="containerL container">
-        <p class="header">High scores:</p><br/>
-        <p>1. : Bulo</p>
-        <p>2. : N</p>
-        <p>3. : Abrakadabra</p>
-        <p>4. : dgf</p>
-        <p>5. : Abrrdhgfra</p>
+        <p class="header" id="scores"></p>
     </div>
     <div class="container containerTop" id="top">
         Welcome to The Switching Bricks.<br/>
@@ -45,19 +41,20 @@
         
         <canvas id="canvas" width="600" height="650"></canvas>
     </div>
-    <div class="containerR container">
+    <div class="containerR container"></div>
+    <div class="containerR container" id="status">
         <p class="header">Your score:</p><br>
         <p class="header" id="scorePoints">X</p><br/><br/>
         <p class="header">Difficulty:</p><br>
-        <p class="header">X</p><br/><br/>
+        <p class="header">Hard</p><br/><br/>
         <p class="header">Time:</p><br>
         <p class="header" id="whatTime">X</p><br/><br/>
     </div>
     <div class="btns">
-        <div class="levi"><img src="img/dl.png" alt="" id="levaSlika"></div>
-        <div class="desni"><img src="img/dl.png" alt="" id="desnaSlika"></div>
+        <div class="levi"><img src="img/dlBlue.png" alt="l" id="levaSlika"></div>
+        <div class="desni"><img src="img/dlBlue.png" alt="d" id="desnaSlika"></div>
 
     </div>
-    
+    <script src="js/local.js"></script>
 </body>
 </html>
