@@ -10,9 +10,34 @@ function drawIt() {
         $("#scorePoints").html(tocke);
         document.getElementById("btn").disabled = true;
         document.getElementById("top").style.opacity = 0;
+        document.getElementById("diff").innerHTML="Hard";
+
+
+        NROWS = 6;
+        NCOLS = 7;
+        BRICKWIDTH = (WIDTH / NCOLS) - 1;
+        BRICKHEIGHT = 20;
+        PADDING = 1;
+        /*bricks = new Array(NROWS);
+        for (i = 0; i < NROWS; i++) {
+            bricks[i] = new Array(NCOLS);
+            for (j = 0; j < NCOLS; j++) {
+                bricks[i][j] = 1;
+            }
+        }*/
+
+        bricks2 = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 3, 1, 1, 1],
+            [2, 1, 0, 0, 0, 1, 2],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]
+
+        ];
+
+
         callIt();
-
-
     }
 
     function timer() {
@@ -56,37 +81,10 @@ function drawIt() {
     }
 
     function initbricks() { //inicializacija opek - polnjenje v tabelo
-        NROWS = 6;
-        NCOLS = 7;
-        BRICKWIDTH = (WIDTH / NCOLS) - 1;
-        BRICKHEIGHT = 20;
-        PADDING = 1;
-        /*bricks = new Array(NROWS);
-        for (i = 0; i < NROWS; i++) {
-            bricks[i] = new Array(NCOLS);
-            for (j = 0; j < NCOLS; j++) {
-                bricks[i][j] = 1;
-            }
-        }*/
-        bricks = [
-            [2, 2, 2, 2, 2, 2, 2],
-            [1, 2, 2, 2, 2, 2, 1],
-            [0, 1, 1, 2, 1, 1, 0],
-            [0, 0, 2, 1, 2, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0]];
-
-        bricks2 = [
-            [2, 2, 2, 2, 2, 2, 2],
-            [1, 2, 2, 2, 2, 2, 1],
-            [0, 1, 1, 2, 1, 1, 0],
-            [0, 0, 2, 1, 2, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0],
-            [3, 0, 0, 0, 0, 0, 3]
-
-        ];
+        
     }
 
+    var currLevel=1;
     var x = 200;
     var y = 200;
     var dx = 3;
@@ -166,8 +164,52 @@ function drawIt() {
     function clear() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
     }
+    function isEmpty(){
+        for(i=0;i<bricks2.length;i++){
+            for(j=0;j<bricks2[i].length;j++){
+                if(bricks2[i][j]!=0)
+                    return false
+            }
+        }
+        return true; //tabela je prazna, ni opek
+    }
+
     //END LIBRARY CODE
     function draw() {
+        if(isEmpty()){
+            currLevel++;
+            console.log(currLevel)
+            if(currLevel==2){
+                document.getElementById("diff").innerHTML="Harder";
+                bricks2 = [
+                    [2, 2, 2, 2, 2, 2, 2],
+                    [1, 2, 2, 2, 2, 2, 1],
+                    [0, 1, 1, 2, 1, 1, 0],
+                    [0, 0, 2, 1, 2, 0, 0],
+                    [0, 0, 0, 3, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0]];
+
+            }
+            else if(currLevel==3){
+                document.getElementById("diff").innerHTML="Extreme";
+                bricks2 = [
+                    [3, 2, 2, 3, 2, 2, 3],
+                    [2, 3, 3, 2, 3, 3, 2],
+                    [1, 2, 2, 2, 2, 2, 1],
+                    [0, 1, 2, 2, 2, 1, 0],
+                    [1, 1, 0, 0, 0, 1, 1],
+                    [3, 0, 0, 0, 0, 0, 3]];
+
+            }
+            else{
+                only=true;
+                gameOver();
+            }
+            x=200;
+            y=200;
+            dy=5
+            dx=2;
+        };
         clear();
         circle(x, y, 10, c);
         //premik ploščice levo in desno
@@ -260,11 +302,11 @@ function drawIt() {
         y += dy;
         if(!start && !only){
             only=true;
-            gameOver();
+            gameOver("lost");
         }
 
     }
-    function gameOver(){
+    function gameOver(str){
         start=true;
         var finalScore=tocke-sekunde;
         var sc=new Array(5);
@@ -315,7 +357,10 @@ function drawIt() {
             localStorage.setItem("sc"+(x+1).toString,sc[x].toString);
             localStorage.setItem("nu"+(x+1).toString,nu[x]);
         }*/
-        done();
+        if(str=="lost")
+            done();
+        else
+            won();
         //window.location.reload(true)
 
         //console.log(sc);
@@ -393,10 +438,10 @@ function drawIt() {
     var aKey = 39;
 
     init();
+    //initbricks();
     init_paddle();
     init_paddle2();
     //init_mouse();
-    initbricks();
     initMusic();
     switchInput();
 

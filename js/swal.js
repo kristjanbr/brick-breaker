@@ -8,12 +8,15 @@ function enterName() {
         if(result.value.length == 0){
             empty();
         }
-        else if(result.value.toLowerCase()=="your name"){
+        else if(result.value.toLowerCase()=="yourname"){
             original();
         }
         else if (result.value.length < 9) {
             yourName=result.value;
-            drawIt();
+            if(regex(yourName))
+                drawIt();
+            else
+                letetrsOnly();
         }
         else {
             tooLong();
@@ -28,11 +31,27 @@ function tooLong() {
 
     })
 }
+function letetrsOnly() {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You may enter letetrs only (in English alphabet)!',
+
+    })
+}
 function empty() {
     Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'You have to enter something!',
+
+    })
+}
+function original() {
+    Swal.fire({
+        icon: 'error',
+        title: 'Wow...',
+        text: 'How original...',
 
     })
 }
@@ -56,4 +75,22 @@ function done(){
           
         window.location.reload(true);
       })
+}
+function won(){
+    document.getElementById("canvas").style.opacity = 0;
+    document.getElementById("status").style.opacity = 0;
+    Swal.fire({
+        title: 'Game won! Congrats!',
+        confirmButtonText: 'Restart',
+      }).then((result) => {
+          
+        window.location.reload(true);
+      })
+}
+
+function regex(inputtxt){
+    var letters = /^[A-Za-z]+$/;
+    if(inputtxt.match(letters))
+        return true;
+    return false;
 }
