@@ -1,4 +1,4 @@
-var yourName="";
+var yourName = "";
 function drawIt() {
 
     function init() {
@@ -10,7 +10,7 @@ function drawIt() {
         $("#scorePoints").html(tocke);
         document.getElementById("btn").disabled = true;
         document.getElementById("top").style.opacity = 0;
-        document.getElementById("diff").innerHTML="Hard";
+        document.getElementById("diff").innerHTML = "Hard";
 
 
         NROWS = 6;
@@ -18,13 +18,6 @@ function drawIt() {
         BRICKWIDTH = (WIDTH / NCOLS) - 1;
         BRICKHEIGHT = 20;
         PADDING = 1;
-        /*bricks = new Array(NROWS);
-        for (i = 0; i < NROWS; i++) {
-            bricks[i] = new Array(NCOLS);
-            for (j = 0; j < NCOLS; j++) {
-                bricks[i][j] = 1;
-            }
-        }*/
 
         bricks2 = [
             [1, 1, 1, 1, 1, 1, 1],
@@ -81,10 +74,10 @@ function drawIt() {
     }
 
     function initbricks() { //inicializacija opek - polnjenje v tabelo
-        
+
     }
 
-    var currLevel=1;
+    var currLevel = 1;
     var x = 200;
     var y = 200;
     var dx = 3;
@@ -125,7 +118,8 @@ function drawIt() {
     var sekunde = 0;
     var izpisTimer = "00:00";
     var start = true;
-    var only=false;
+    var only = false;
+    var my_gradient;
 
     function initMusic() {
         var audio_file = new Audio('mus/mario.mp3')
@@ -143,11 +137,10 @@ function drawIt() {
 
     function circle(x, y, r, c) {
         ctx.beginPath();
-        ctx.fillStyle = "linear-gradient(to bottom left, #7d0140 , #120147)";
-        var my_gradient = ctx.createLinearGradient(300, 0, 0, 150);
-        my_gradient.addColorStop(0, "#440122");
-        my_gradient.addColorStop(1, "white");
-        ctx.fillStyle = my_gradient
+        my_gradient = ctx.createLinearGradient(250, 300, 350, 300);
+        my_gradient.addColorStop(0, currColor1);
+        my_gradient.addColorStop(1, currColor2);
+        ctx.fillStyle = my_gradient;
         ctx.arc(x, y, r, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.fill();
@@ -164,23 +157,22 @@ function drawIt() {
     function clear() {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
     }
-    function isEmpty(){
-        for(i=0;i<bricks2.length;i++){
-            for(j=0;j<bricks2[i].length;j++){
-                if(bricks2[i][j]!=0)
+    function isEmpty() {
+        for (i = 0; i < bricks2.length; i++) {
+            for (j = 0; j < bricks2[i].length; j++) {
+                if (bricks2[i][j] != 0)
                     return false
             }
         }
         return true; //tabela je prazna, ni opek
     }
 
-    //END LIBRARY CODE
     function draw() {
-        if(isEmpty()){
+        if (isEmpty()) {
             currLevel++;
             console.log(currLevel)
-            if(currLevel==2){
-                document.getElementById("diff").innerHTML="Harder";
+            if (currLevel == 2) {
+                document.getElementById("diff").innerHTML = "Harder";
                 bricks2 = [
                     [2, 2, 2, 2, 2, 2, 2],
                     [1, 2, 2, 2, 2, 2, 1],
@@ -190,8 +182,8 @@ function drawIt() {
                     [0, 0, 0, 0, 0, 0, 0]];
 
             }
-            else if(currLevel==3){
-                document.getElementById("diff").innerHTML="Extreme";
+            else if (currLevel == 3) {
+                document.getElementById("diff").innerHTML = "Extreme";
                 bricks2 = [
                     [3, 2, 2, 3, 2, 2, 3],
                     [2, 3, 3, 2, 3, 3, 2],
@@ -201,14 +193,14 @@ function drawIt() {
                     [3, 0, 0, 0, 0, 0, 3]];
 
             }
-            else{
-                only=true;
+            else {
+                only = true;
                 gameOver();
             }
-            x=200;
-            y=200;
-            dy=5
-            dx=2;
+            x = 200;
+            y = 200;
+            dy = 5
+            dx = 2;
         };
         clear();
         circle(x, y, 10, c);
@@ -283,7 +275,7 @@ function drawIt() {
                 dy = -dy;
                 //start = true;
             } else if (y + dy > HEIGHT - r) {
-                //console.log("END OF GAME, YOU LOSE!")
+                //END OF GAME
                 start = false;
             }
             //clearInterval(ne);
@@ -293,78 +285,75 @@ function drawIt() {
                 dy = -dy;
                 //start = true;
             } else if (y + dy > HEIGHT - r) {
-                //console.log("END OF GAME, YOU LOSE!")
+                //END OF GAME
                 start = false;
             }
             //clearInterval(ne);
         }
         x += dx;
         y += dy;
-        if(!start && !only){
-            only=true;
+        if (!start && !only) {
+            only = true;
             gameOver("lost");
         }
 
     }
-    function gameOver(str){
-        start=true;
-        var finalScore=tocke-sekunde;
-        var sc=new Array(5);
-        sc[0]=parseInt(localStorage.getItem("sc1"));
-        sc[1]=parseInt(localStorage.getItem("sc2"));
-        sc[2]=parseInt(localStorage.getItem("sc3"));
-        sc[3]=parseInt(localStorage.getItem("sc4"));
-        sc[4]=parseInt(localStorage.getItem("sc5"));
-        var nu=new Array(5);
-        nu[0]=localStorage.getItem("nu1");
-        nu[1]=localStorage.getItem("nu2");
-        nu[2]=localStorage.getItem("nu3");
-        nu[3]=localStorage.getItem("nu4");
-        nu[4]=localStorage.getItem("nu5");
-        //console.log(sc);
-        for (var i = 0; i < sc.length; i++) {
-            if(finalScore>sc[i]){ 
-                var j=i;
-                while(j<sc.length){
-                    var tmp=sc.length-j-1;
-                    //if(tmp!=4){
-                        sc[tmp+1]=sc[tmp]
-                        nu[tmp+1]=nu[tmp]
-                        //console.log(sc[tmp]+" "+nu[tmp])
-                        //console.log(sc[tmp+1]+" "+nu[tmp+1]);
-                    //}
-                    j+=1;
-                }
-                //console.log(yourName+" "+finalScore)
-                sc[i]=finalScore;
-                nu[i]=yourName;
-                //console.log(sc[i]+" "+nu[i])
-                break;
-            }
+    function gameOver(str) {
+        start = true;
+        var finalScore = tocke - sekunde;
+        var sc = new Array(5);
+        sc[0] = parseInt(localStorage.getItem("sc1"));
+        sc[1] = parseInt(localStorage.getItem("sc2"));
+        sc[2] = parseInt(localStorage.getItem("sc3"));
+        sc[3] = parseInt(localStorage.getItem("sc4"));
+        sc[4] = parseInt(localStorage.getItem("sc5"));
+        var nu = new Array(5);
+        nu[0] = localStorage.getItem("nu1");
+        nu[1] = localStorage.getItem("nu2");
+        nu[2] = localStorage.getItem("nu3");
+        nu[3] = localStorage.getItem("nu4");
+        nu[4] = localStorage.getItem("nu5");
+        if (finalScore>sc[4]){
+            sc[4]=finalScore;
+            nu[4]=yourName;
+            urejenjeMaxMin(sc,nu);
+            localStorage.setItem("sc1", sc[0]);
+            localStorage.setItem("sc2", sc[1]);
+            localStorage.setItem("sc3", sc[2]);
+            localStorage.setItem("sc4", sc[3]);
+            localStorage.setItem("sc5", sc[4]);
+            localStorage.setItem("nu1", nu[0]);
+            localStorage.setItem("nu2", nu[1]);
+            localStorage.setItem("nu3", nu[2]);
+            localStorage.setItem("nu4", nu[3]);
+            localStorage.setItem("nu5", nu[4]);
         }
-
-        localStorage.setItem("sc1",sc[0]);
-        localStorage.setItem("sc2",sc[1]);
-        localStorage.setItem("sc3",sc[2]);
-        localStorage.setItem("sc4",sc[3]);
-        localStorage.setItem("sc5",sc[4]);
-        localStorage.setItem("nu1",nu[0]);
-        localStorage.setItem("nu2",nu[1]);
-        localStorage.setItem("nu3",nu[2]);
-        localStorage.setItem("nu4",nu[3]);
-        localStorage.setItem("nu5",nu[4]);
-        /*for (var x = 0; x < sc.length; x++) {
-            localStorage.setItem("sc"+(x+1).toString,sc[x].toString);
-            localStorage.setItem("nu"+(x+1).toString,nu[x]);
-        }*/
-        if(str=="lost")
+        if (str == "lost")
             done();
         else
             won();
-        //window.location.reload(true)
-
-        //console.log(sc);
     }
+
+    function urejenjeMaxMin(a,b) {//Element a[](int)  //Element b[](String)
+        var i, j;
+        var x; // Element x - int
+        var y; // Element y - String (side)
+        for (i = 1; i < a.length; i++) {
+            if (a[i] < a[i - 1]) 
+                continue;
+            x = a[i];
+            y = b[i];
+            j = i - 1;
+            while (j >= 0 && x > (a[j])) {
+                a[j + 1] = a[j];
+                b[j + 1] = b[j];
+                j--;
+            }
+            a[j + 1] = x;
+            b[j + 1] = y;
+        }
+    }
+
 
     function farba(row, col) {
         var num = bricks2[row][col];
@@ -390,7 +379,6 @@ function drawIt() {
             case 2:
             case 1:
                 bricks2[row][col] = bricks2[row][col] - 1;
-                //console.log(bricks2[row][col]);
                 return true;
             default:
                 return false;
@@ -456,14 +444,6 @@ function drawIt() {
         timer = setTimeout(switchInput, timeout);
     };
 
-
-    /*function switchInput(){
-      if(once)
-          timeout=4000;
-      else
-          once=true;
-      return setInterval(swap, timeout);
-    }*/
     function swap() {
         rightDownLeft = false;
         leftDownLeft = false;
