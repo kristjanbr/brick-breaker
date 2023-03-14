@@ -1,6 +1,6 @@
 # brick-breaker
 
-A web game, made with HTML,c CSS, and JavaScript, that feels like a standard brick-breaker, but with a twist.
+A web game, made with HTML, CSS, and JavaScript, that feels like a standard brick-breaker, but with a twist.
 <br>  
 You have two pads. One is controlled by your WASD keys, and the other is controlled by your arrow keys.
 
